@@ -193,9 +193,11 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
   world
 ) {
   console.log(topojson.feature(world, world.objects.countries).features);
-  var countries = topojson.feature(world, world.objects.countries).features.filter(function (d) {
-    return d.id !==  "010";
-  });
+  var countries = topojson
+    .feature(world, world.objects.countries)
+    .features.filter(function (d) {
+      return d.id !== "010";
+    });
 
   // Draw the countries
   svg
