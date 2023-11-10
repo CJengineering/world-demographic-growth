@@ -56,3 +56,25 @@ label {
     margin-right: 5px;
     color: white;
 }
+.city-selector-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gainsboro;
+    padding: 10px;
+    border-radius: 5px;
+  
+    margin-top: 24px;
+}
+.all-selector-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.all-control-container{
+    display: flex;
+    justify-content: center;
+    
+    column-gap: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}

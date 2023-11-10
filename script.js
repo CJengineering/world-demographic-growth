@@ -30,118 +30,145 @@ var cityData = [
   { name: "Abu Dhabi", latitude: 24, longitude: 54, size: 3 },
 ];
 
-
-function removeAllCircles(){
-    svg.selectAll("circle").remove();
+function removeAllCircles() {
+  svg.selectAll("circle").remove();
 }
-document.getElementById("removeButton").addEventListener("click", function () { 
-    removeAllCircles();
+document.getElementById("removeButton").addEventListener("click", function () {
+  removeAllCircles();
 });
 function displayCitiesForYear(year) {
-    svg.selectAll("circle").remove(); // Remove existing circles
+  svg.selectAll("circle").remove(); // Remove existing circles
 
-    citiesData.forEach(function (city) {
-        const scaledRadius = city[year] / 1000;
+  citiesData.forEach(function (city) {
+    const scaledRadius = city[year] / 1000;
 
-        svg.append("circle")
-            .attr("cx", projection([city.Longitude, city.Latitude])[0])
-            .attr("cy", projection([city.Longitude, city.Latitude])[1])
-            .attr("r", scaledRadius)
-            .style("fill", "#8f00ff ")
-            .style("opacity", 0.5);
-    });
+    svg
+      .append("circle")
+      .attr("cx", projection([city.Longitude, city.Latitude])[0])
+      .attr("cy", projection([city.Longitude, city.Latitude])[1])
+      .attr("r", scaledRadius)
+      .style("fill", "#8f00ff ")
+      .style("opacity", 0.5);
+  });
 }
 
 // Other code for initializing the map and buttons...
 
 // Trigger the displayCitiesForYear function when the year selector changes
 document.getElementById("yearSelector").addEventListener("change", function () {
-    const selectedYear = this.value;
-    console.log("Dropdown Change Event. Selected Year:", selectedYear);
-    displayCitiesForYear(selectedYear);
+  const selectedYear = this.value;
+  console.log("Dropdown Change Event. Selected Year:", selectedYear);
+  displayCitiesForYear(selectedYear);
 });
 function addAnimatedCircle(city) {
-    svg.append("circle")
+  svg
+    .append("circle")
     .attr("cx", projection([city.Longitude, city.Latitude])[0])
     .attr("cy", projection([city.Longitude, city.Latitude])[1])
     .attr("r", 2) // Adjust the size of the red point as needed
     .style("fill", "red");
 
-    const circle = svg.append("circle")
-        .datum(city)
-        .attr("cx", projection([city.Longitude, city.Latitude])[0])
-        .attr("cy", projection([city.Longitude, city.Latitude])[1])
-        .attr("r", 5) // Initial size of the circle
-        .style("fill", " #8f00ff ")
-        .style("opacity", 0.5);
+  const circle = svg
+    .append("circle")
+    .datum(city)
+    .attr("cx", projection([city.Longitude, city.Latitude])[0])
+    .attr("cy", projection([city.Longitude, city.Latitude])[1])
+    .attr("r", 5) // Initial size of the circle
+    .style("fill", " #8f00ff ")
+    .style("opacity", 0.5);
 
-    // Trigger the animation
-    animateCircle(circle, city);
+  // Trigger the animation
+  animateCircle(circle, city);
 }
 function animateCircle(circle, city) {
-    let currentYear = 1950;
-    const animationDuration = parseInt(document.getElementById("animationDuration").value, 10);
-    console.log("Animation duration:", animationDuration);
-    let interval = setInterval(() => {
-        if (currentYear <= 2030) {
-            const scaledRadius = city[currentYear] / 1000;
+  let currentYear = 1950;
+  const animationDuration = parseInt(
+    document.getElementById("animationDuration").value,
+    10
+  );
+  console.log("Animation duration:", animationDuration);
+  let interval = setInterval(() => {
+    if (currentYear <= 2030) {
+      const scaledRadius = city[currentYear] / 1000;
 
-            circle.transition()
-                .duration(500) // Animation duration for each year
-                .ease(d3.easeLinear)
-                .attr("r", scaledRadius);
+      circle
+        .transition()
+        .duration(500) // Animation duration for each year
+        .ease(d3.easeLinear)
+        .attr("r", scaledRadius);
 
-            currentYear += 5; // Incrementing by 5 years
-        } else {
-            clearInterval(interval); // Stop the animation when reaching 2050
-        }
-    },animationDuration); 
+      currentYear += 5; // Incrementing by 5 years
+    } else {
+      clearInterval(interval); // Stop the animation when reaching 2050
+    }
+  }, animationDuration);
 }
 function displayCityEvolution(cityName) {
-    // Find the selected city in the data
-    const selectedCity = citiesData.find(city => city["Urban Agglomeration"] === cityName);
+  // Find the selected city in the data
+  const selectedCity = citiesData.find(
+    (city) => city["Urban Agglomeration"] === cityName
+  );
 
-    if (!selectedCity) {
-        console.error("City not found in the data");
-        return;
-    }
+  if (!selectedCity) {
+    console.error("City not found in the data");
+    return;
+  }
 
-    // Clear existing circles
-    svg.selectAll("circle").remove();
+  // Clear existing circles
+  svg.selectAll("circle").remove();
 
-    // Add a fixed red point at the center of the selected city
-    svg.append("circle")
-        .attr("cx", projection([selectedCity.Longitude, selectedCity.Latitude])[0])
-        .attr("cy", projection([selectedCity.Longitude, selectedCity.Latitude])[1])
-        .attr("r", 3) // Adjust the size of the red point as needed
-        .style("fill", "red");
+  // Add a fixed red point at the center of the selected city
+  svg
+    .append("circle")
+    .attr("cx", projection([selectedCity.Longitude, selectedCity.Latitude])[0])
+    .attr("cy", projection([selectedCity.Longitude, selectedCity.Latitude])[1])
+    .attr("r", 3) // Adjust the size of the red point as needed
+    .style("fill", "red");
 
-    // Add the animated circle for the selected city
-    const animatedCircle = svg.append("circle")
-        .datum(selectedCity)
-        .attr("cx", projection([selectedCity.Longitude, selectedCity.Latitude])[0])
-        .attr("cy", projection([selectedCity.Longitude, selectedCity.Latitude])[1])
-        .attr("r", 5) // Initial size of the circle
-        .style("fill", "#8f00ff")
-        .style("opacity", 0.5);
+  // Add the animated circle for the selected city
+  const animatedCircle = svg
+    .append("circle")
+    .datum(selectedCity)
+    .attr("cx", projection([selectedCity.Longitude, selectedCity.Latitude])[0])
+    .attr("cy", projection([selectedCity.Longitude, selectedCity.Latitude])[1])
+    .attr("r", 5) // Initial size of the circle
+    .style("fill", "#8f00ff")
+    .style("opacity", 0.5);
 
-    // Trigger the animation for the selected city
-    animateCircle(animatedCircle, selectedCity);
+  // Trigger the animation for the selected city
+  animateCircle(animatedCircle, selectedCity);
 }
-document.getElementById("citySelector").addEventListener("change", function () {
-    const selectedCity = this.value;
-    console.log("City Selector Change Event. Selected City:", selectedCity);
+document
+  .getElementById("submitCity")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    const selectedCity = document.getElementById("citySelector").value;
+    console.log("Submit Button Clicked. Selected City:", selectedCity);
     displayCityEvolution(selectedCity);
+  });
+document.addEventListener("keydown", function (event) {
+  if (event.code === "Enter") {
+    event.preventDefault();
+    const selectedCity = document.getElementById("citySelector").value;
+    console.log("Submit Button Clicked. Selected City:", selectedCity);
+    displayCityEvolution(selectedCity);
+  }
 });
 // Trigger the animation when the button is clicked
-const playButtonAllCities= document.getElementById("playButtonAllCities");
+const playButtonAllCities = document.getElementById("playButtonAllCities");
 
 playButtonAllCities.addEventListener("click", function () {
   citiesData.forEach(function (city) {
     addAnimatedCircle(city);
   });
 });
-
+document.addEventListener("keydown", function (event) {
+  if (event.code === "Space") {
+    citiesData.forEach(function (city) {
+      addAnimatedCircle(city);
+    });
+  }
+});
 var width = 1920;
 var height = 1080;
 
@@ -165,10 +192,15 @@ var path = d3.geoPath().projection(projection);
 d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
   world
 ) {
+  console.log(topojson.feature(world, world.objects.countries).features);
+  var countries = topojson.feature(world, world.objects.countries).features.filter(function (d) {
+    return d.id !==  "010";
+  });
+
   // Draw the countries
   svg
     .selectAll("path")
-    .data(topojson.feature(world, world.objects.countries).features)
+    .data(countries)
     .enter()
     .append("path")
     .attr("d", path)
