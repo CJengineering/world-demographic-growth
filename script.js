@@ -36,6 +36,11 @@ function removeAllCircles() {
 document.getElementById("removeButton").addEventListener("click", function () {
   removeAllCircles();
 });
+document.addEventListener("keydown", function(event) {
+  if (event.key === "z") {
+    removeAllCircles();
+  }
+});
 function displayCitiesForYear(year) {
   svg.selectAll("circle").remove(); // Remove existing circles
 
