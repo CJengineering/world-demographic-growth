@@ -79,7 +79,7 @@ function addAnimatedCircle(city) {
     .datum(city)
     .attr("cx", projection([city.Longitude, city.Latitude])[0])
     .attr("cy", projection([city.Longitude, city.Latitude])[1])
-    .attr("r", 5) // Initial size of the circle
+    .attr("r", 1) // Initial size of the circle
     .style("fill", " #8f00ff ")
     .style("opacity", 0.5);
 
