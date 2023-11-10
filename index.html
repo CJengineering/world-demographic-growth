@@ -12,89 +12,115 @@
     <div class="container-demo">
       <h1 class="title">Demographic evolution since 1950 to 2030 per city</h1>
       <div class="all-control-container">
-      <div class="controls">
-
-        <div class="all-selector-container">
-          
-          <div class="animation-duration-container">
-            <label for="animationDuration">Animation Duration (ms):</label>
-            <input type="text" id="animationDuration" value="1000" />
+        <div class="controls">
+          <div class="all-selector-container">
+            <div class="animation-duration-container">
+              <label for="animationDuration">Animation Duration (ms):</label>
+              <input type="text" id="animationDuration" value="1000" />
+            </div>
+            <div class="select-container">
+              <label for="yearSelector">Select Year:</label>
+              <select
+                id="yearSelector"
+                onchange="displayCitiesForYear(this.value)"
+              >
+                <option value="1950">1950</option>
+                <option value="1955">1955</option>
+                <option value="1960">1960</option>
+                <option value="1965">1965</option>
+                <option value="1970">1970</option>
+                <option value="1975">1975</option>
+                <option value="1980">1980</option>
+                <option value="1985">1985</option>
+                <option value="1990">1990</option>
+                <option value="1995">1995</option>
+                <option value="2000">2000</option>
+                <option value="2005">2005</option>
+                <option value="2010">2010</option>
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+                <option value="2025">2025</option>
+                <option value="2030">2030</option>
+              </select>
+            </div>
           </div>
-          <div class="select-container">
-            
-            <label for="yearSelector">Select Year:</label>
-            <select id="yearSelector" onchange="displayCitiesForYear(this.value)">
-              <option value="1950">1950</option>
-              <option value="1955">1955</option>
-              <option value="1960">1960</option>
-              <option value="1965">1965</option>
-              <option value="1970">1970</option>
-              <option value="1975">1975</option>
-              <option value="1980">1980</option>
-              <option value="1985">1985</option>
-              <option value="1990">1990</option>
-              <option value="1995">1995</option>
-              <option value="2000">2000</option>
-              <option value="2005">2005</option>
-              <option value="2010">2010</option>
-              <option value="2015">2015</option>
-              <option value="2020">2020</option>
-              <option value="2025">2025</option>
-              <option value="2030">2030</option>
-            </select>
-            
-          </div>
+          <button id="playButtonAllCities">Play all Cities</button>
+          <button id="removeButton" style="background-color: red">Clean</button>
         </div>
-        <button id="playButtonAllCities">Play all Cities</button>
-        <button id="removeButton" style="background-color: red;">Clean</button>
-      </div>
-      
-      <div class="city-selector-container">
-        <label for="citySelector">Play individual city</label>
-        <select id="citySelector" >
-          <option value="New York-Newark">New York-Newark</option>
-          <option value="Tokyo">Tokyo</option>
-          <option value="London">London</option>
-          <option value="Kinki M.M.A. (Osaka)">Kinki M.M.A. (Osaka)</option>
-          <option value="Paris">Paris</option>
-          <option value="Moskva (Moscow)">Moskva (Moscow)</option>
-          <option value="Buenos Aires">Buenos Aires</option>
-          <option value="Chicago">Chicago</option>
-          <option value="Kolkata (Calcutta)">Kolkata (Calcutta)</option>
-          <option value="Shanghai">Shanghai</option>
-          <option value="Los Angeles-Long Beach-Santa Ana">Los Angeles-Long Beach-Santa Ana</option>
-          <option value="Ciudad de México (Mexico City)">Ciudad de México (Mexico City)</option>
-          <option value="Berlin">Berlin</option>
-          <option value="Philadelphia">Philadelphia</option>
-          <option value="Mumbai (Bombay)">Mumbai (Bombay)</option>
-          <option value="Rio de Janeiro">Rio de Janeiro</option>
-          <option value="Sankt Peterburg (Saint Petersburg)">Sankt Peterburg (Saint Petersburg)</option>
-          <option value="Detroit">Detroit</option>
-          <option value="Boston">Boston</option>
-          <option value="Al-Qahirah (Cairo)">Al-Qahirah (Cairo)</option>
-          <option value="Tianjin">Tianjin</option>
-          <option value="Manchester">Manchester</option>
-          <option value="São Paulo">São Paulo</option>
-          <option value="Chukyo M.M.A. (Nagoya)">Chukyo M.M.A. (Nagoya)</option>
-          <option value="Birmingham (West Midlands)">Birmingham (West Midlands)</option>
-          <option value="Shenyang">Shenyang</option>
-          <option value="Roma (Rome)">Roma (Rome)</option>
-          <option value="Milano (Milan)">Milano (Milan)</option>
-          <option value="San Francisco-Oakland">San Francisco-Oakland</option>
-          <option value="Barcelona">Barcelona</option>
-          <option value="Glasgow">Glasgow</option>
-          <option value="Madrid">Madrid</option>
-          <option value="West Yorkshire">West Yorkshire</option>
-          
-        </select>
-        <button id="submitCity">Play city button</button>
-      </div>
-    </div>
-      <div id="map-container"></div>
-  </div>
 
-   
- 
+        <div class="city-selector-container">
+          <label for="citySelector">Play individual city</label>
+          <select id="citySelector">
+            <option value="New York-Newark">New York-Newark</option>
+            <option value="Tokyo">Tokyo</option>
+            <option value="London">London</option>
+            <option value="Kinki M.M.A. (Osaka)">Kinki M.M.A. (Osaka)</option>
+            <option value="Paris">Paris</option>
+            <option value="Moskva (Moscow)">Moskva (Moscow)</option>
+            <option value="Buenos Aires">Buenos Aires</option>
+            <option value="Chicago">Chicago</option>
+            <option value="Kolkata (Calcutta)">Kolkata (Calcutta)</option>
+            <option value="Shanghai">Shanghai</option>
+            <option value="Los Angeles-Long Beach-Santa Ana">
+              Los Angeles-Long Beach-Santa Ana
+            </option>
+            <option value="Ciudad de México (Mexico City)">
+              Ciudad de México (Mexico City)
+            </option>
+            <option value="Berlin">Berlin</option>
+            <option value="Philadelphia">Philadelphia</option>
+            <option value="Mumbai (Bombay)">Mumbai (Bombay)</option>
+            <option value="Rio de Janeiro">Rio de Janeiro</option>
+            <option value="Sankt Peterburg (Saint Petersburg)">
+              Sankt Peterburg (Saint Petersburg)
+            </option>
+            <option value="Detroit">Detroit</option>
+            <option value="Boston">Boston</option>
+            <option value="Al-Qahirah (Cairo)">Al-Qahirah (Cairo)</option>
+            <option value="Tianjin">Tianjin</option>
+            <option value="Manchester">Manchester</option>
+            <option value="São Paulo">São Paulo</option>
+            <option value="Chukyo M.M.A. (Nagoya)">
+              Chukyo M.M.A. (Nagoya)
+            </option>
+            <option value="Birmingham (West Midlands)">
+              Birmingham (West Midlands)
+            </option>
+            <option value="Shenyang">Shenyang</option>
+            <option value="Roma (Rome)">Roma (Rome)</option>
+            <option value="Milano (Milan)">Milano (Milan)</option>
+            <option value="San Francisco-Oakland">San Francisco-Oakland</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Glasgow">Glasgow</option>
+            <option value="Madrid">Madrid</option>
+            <option value="West Yorkshire">West Yorkshire</option>
+            <option value="Nairobi">Nairobi</option>
+            <option value="Mombasa">Mombasa</option>
+            <option value="Pune (Poona)">Pune (Poona)</option>
+            <option value="Guwahati (Gauhati)">Guwahati (Gauhati)</option>
+            <option value="Auckland">Auckland</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Accra">Accra</option>
+            <option value="Kumasi">Kumasi</option>
+            <option value="Addis Ababa">Addis Ababa</option>
+            <option value="Mekele">Mekele</option>
+            <option value="Tete">Tete</option>
+            <option value="Gqeberha (Port Elizabeth)">
+              Gqeberha (Port Elizabeth)
+            </option>
+            <option value="Onitsha">Onitsha</option>
+            <option value="Sylhet">Sylhet</option>
+            <option value="Islamabad">Islamabad</option>
+            <option value="Cebu City">Cebu City</option>
+            <option value="Belém">Belém</option>
+            <option value="Kitwe">Kitwe</option>
+            <option value="Marrakech">Marrakech</option>
+          </select>
+          <button id="submitCity">Play city button</button>
+        </div>
+      </div>
+      <div id="map-container"></div>
+    </div>
 
     <script src="dataJs.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>

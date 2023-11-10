@@ -38,6 +38,7 @@ document.getElementById("removeButton").addEventListener("click", function () {
 });
 document.addEventListener("keydown", function(event) {
   if (event.key === "z") {
+    console.log("Z key pressed");
     removeAllCircles();
   }
 });
