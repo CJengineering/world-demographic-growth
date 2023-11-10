@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Population Growth Animation</title>
+  <!-- Include each script only once -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://d3js.org/topojson.v3.min.js"></script>
+</head>
+<body>
+    <div id="map-container"></div>
+  <svg width="800" height="600"></svg>
+ 
+  <script>
+    // Let's assume the Paris coordinates map to the middle of the SVG for simplicity.
+    // These values should normally be calculated based on a map projection or scale.
+    const parisPixelCoordinates = [400, 300];
+
+    const svg = d3.select('svg');
+
+    // Initialize a circle at Paris with a radius of 0
+    const circle = svg.append('circle')
+      .attr('cx', parisPixelCoordinates[0])
+      .attr('cy', parisPixelCoordinates[1])
+      .attr('r', 0)
+      .attr('fill', 'blue');
+
+    // Define a population growth data array (simplified)
+    // Assuming these are population values for subsequent years
+    const populationData = [100, 200, 300, 400, 500];
+
+    // Create an animation timeline
+    const timeline = gsap.timeline();
+
+    populationData.forEach((population, index) => {
+      timeline.to(circle.node(), {
+        duration: 1,  // Duration for the growth
+        attr: { r: population / 100 }, // Adjust the scale based on data
+        onComplete: () => {
+          // Update other aspects of your visualization as needed
+          // For example, adding labels, tooltips, etc.
+          // Here, we're just logging for demonstration
+          console.log(`Year ${index + 1}: Population - ${population}`);
+        },
+      });
+    });
+
+    // Add additional steps or customizations to your animation timeline as needed.
+
+  </script>
+</body>
+</html>
