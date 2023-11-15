@@ -1,4 +1,4 @@
-const citiesData = [
+const citiesDataOld = [
   {
     "Country or area": "United States of America",
     "Urban Agglomeration": "New York-Newark",

@@ -24,6 +24,76 @@ playButton.addEventListener("click", function() {
 });
 */
 }
+
+
+//### COLOR PICKER PART ####
+
+function storeColors() {
+  localStorage.setItem("bg-color", document.getElementById("bg-color").value);
+  localStorage.setItem(
+    "map-bg-color",
+    document.getElementById("map-bg-color").value
+  );
+  localStorage.setItem(
+    "country-color",
+    document.getElementById("country-color").value
+  );
+  localStorage.setItem(
+    "border-color",
+    document.getElementById("border-color").value
+  );
+  localStorage.setItem(
+    "important-city-center-color",
+    document.getElementById("important-city-center-color").value
+  );
+  localStorage.setItem(
+    "important-city-bubble-color",
+    document.getElementById("important-city-bubble-color").value
+  );
+  localStorage.setItem(
+    "secondary-city-center-color",
+    document.getElementById("secondary-city-center-color").value
+  );
+  localStorage.setItem(
+    "secondary-city-bubble-color",
+    document.getElementById("secondary-city-bubble-color").value
+  );
+  localStorage.setItem("commonwealth-color", document.getElementById("commonwealth-color").value)
+}
+
+function applyStoredColors() {
+  // Apply body background color
+  console.log('body tag', document.getElementById)
+  document.getElementById("body").style.backgroundColor =
+    localStorage.getItem("bg-color") || "black"; // Default to white if not set
+
+  document.getElementById("map-container").style.backgroundColor =
+    localStorage.getItem("map-bg-color") || "black";
+
+}
+document.getElementById("apply-colors").addEventListener("click", function () {
+  storeColors();
+  applyStoredColors();
+  location.reload();
+});
+
+// Apply stored colors on page load
+window.onload = applyStoredColors;
+function cleanStyle(){
+  localStorage.clear();
+  location.reload();
+}
+document.getElementById("clean-style").addEventListener("click", function(){
+  cleanStyle()
+})
+const countryColor = localStorage.getItem("country-color")
+const borderColor = localStorage.getItem("border-color")
+const importantCityCenter = localStorage.getItem("important-city-center-color")||"red"
+const importantCityBubble = localStorage.getItem("important-city-bubble-color") || "blue"
+const secondaryCityCenter = localStorage.getItem("secondary-city-center-color")||"red"
+const secondaryCityBubble = localStorage.getItem("secondary-city-bubble-color") || "orange"
+const commonwealthColor = localStorage.getItem("commonwealth-color") || "yellow"                     
+//### END PICKER COLOR PART    ####
 var cityData = [
   { name: "Paris", latitude: 48, longitude: 2, size: 1 },
   { name: "Tokyo", latitude: 35, longitude: 139, size: 2 },
@@ -36,7 +106,7 @@ function removeAllCircles() {
 document.getElementById("removeButton").addEventListener("click", function () {
   removeAllCircles();
 });
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
   if (event.key === "z") {
     console.log("Z key pressed");
     removeAllCircles();
@@ -48,7 +118,7 @@ function displayCitiesForYear(year) {
   citiesData.forEach(function (city) {
     const scaledRadius = city[year] / 1000;
 
-    svg
+    g
       .append("circle")
       .attr("cx", projection([city.Longitude, city.Latitude])[0])
       .attr("cy", projection([city.Longitude, city.Latitude])[1])
@@ -67,20 +137,19 @@ document.getElementById("yearSelector").addEventListener("change", function () {
   displayCitiesForYear(selectedYear);
 });
 function addAnimatedCircle(city) {
-  svg
-    .append("circle")
+  g.append("circle")
     .attr("cx", projection([city.Longitude, city.Latitude])[0])
     .attr("cy", projection([city.Longitude, city.Latitude])[1])
     .attr("r", 2) // Adjust the size of the red point as needed
-    .style("fill", "red");
+    .style("fill", city["Primary city"] ? importantCityCenter : secondaryCityCenter);
 
-  const circle = svg
+  const circle = g
     .append("circle")
     .datum(city)
     .attr("cx", projection([city.Longitude, city.Latitude])[0])
     .attr("cy", projection([city.Longitude, city.Latitude])[1])
     .attr("r", 1) // Initial size of the circle
-    .style("fill", " #8f00ff ")
+    .style("fill", city["Primary city"] ? importantCityBubble : secondaryCityBubble)
     .style("opacity", 0.5);
 
   // Trigger the animation
@@ -95,12 +164,14 @@ function animateCircle(circle, city) {
   console.log("Animation duration:", animationDuration);
   let interval = setInterval(() => {
     if (currentYear <= 2030) {
-      const scaledRadius = city[currentYear] / 1000;
+     // const scaledRadius = city[currentYear] / 1000;
+     const area = city[currentYear];
+     const scaledRadius = (Math.sqrt(area / Math.PI))/5;
 
       circle
         .transition()
         .duration(500) // Animation duration for each year
-        .ease(d3.easeLinear)
+        .ease(d3.easeCubic)
         .attr("r", scaledRadius);
 
       currentYear += 5; // Incrementing by 5 years
@@ -121,24 +192,23 @@ function displayCityEvolution(cityName) {
   }
 
   // Clear existing circles
-  svg.selectAll("circle").remove();
+  g.selectAll("circle").remove();
 
   // Add a fixed red point at the center of the selected city
-  svg
-    .append("circle")
+  g.append("circle")
     .attr("cx", projection([selectedCity.Longitude, selectedCity.Latitude])[0])
     .attr("cy", projection([selectedCity.Longitude, selectedCity.Latitude])[1])
     .attr("r", 3) // Adjust the size of the red point as needed
-    .style("fill", "red");
+    .style("fill", importantCityCenter)
 
   // Add the animated circle for the selected city
-  const animatedCircle = svg
+  const animatedCircle = g
     .append("circle")
     .datum(selectedCity)
     .attr("cx", projection([selectedCity.Longitude, selectedCity.Latitude])[0])
     .attr("cy", projection([selectedCity.Longitude, selectedCity.Latitude])[1])
     .attr("r", 5) // Initial size of the circle
-    .style("fill", "#8f00ff")
+    .style("fill", importantCityBubble)
     .style("opacity", 0.5);
 
   // Trigger the animation for the selected city
@@ -193,9 +263,47 @@ var projection = d3
 
 // Create a path generator using the projection
 var path = d3.geoPath().projection(projection);
+// Define the zoom behavior
+var zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+
+// Apply the zoom behavior to the SVG
+svg.call(zoom);
+// Group to hold the map features
+var g = svg.append("g");
+//TEST ###
+const commonwealthCountriesNumeric = [
+  "028", "036", "044", "050", "052", "084", "072", "096", "120", "124", 
+  "196", "212", "748", "242", "266", "270", "288", "308", "328", "356", 
+  "388", "404", "296", "426", "454", "458", "462", "470", "480", "508", 
+  "516", "520", "554", "566", "586", "598", "646", "659", "662", "670", 
+  "882", "690", "694", "702", "090", "710", "144", "834", "768", "776", 
+  "780", "798", "800", "826", "548", "894"
+];
 
 // Load and display the world data
 d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
+  world
+) {
+  var countries = topojson
+    .feature(world, world.objects.countries)
+    .features.filter(function (d) {
+      return d.id !== "010";
+    });
+    console.log("COuntires", countries)
+  g.selectAll("path")
+    .data(countries)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .attr("stroke", borderColor)
+    .attr("fill", function(d) {
+      // Check if the country is in the Commonwealth and set the color
+      return commonwealthCountriesNumeric.includes(d.id) ? commonwealthColor : "lightgray";
+  });
+});
+// Load and display the world data
+{
+  /** d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
   world
 ) {
   console.log(topojson.feature(world, world.objects.countries).features);
@@ -215,7 +323,26 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
     .attr("fill", "#ccc")
     .attr("stroke", " #00FF41")
     .attr("stroke-width", 0.75);
-});
+});*/
+}
+
+function zoomed(event) {
+  g.attr("transform", event.transform);
+}
+
+// Zoom control functions
+function zoomIn() {
+  svg.transition().call(zoom.scaleBy, 1.3);
+  console.log("zoom in");
+}
+
+function zoomOut() {
+  svg.transition().call(zoom.scaleBy, 0.7);
+}
+
+// Attach zoom control functions to buttons
+d3.select("#zoom-in").on("click", zoomIn);
+d3.select("#zoom-out").on("click", zoomOut);
 function addRedPoint() {
   var latitude = parseFloat(document.getElementById("latitude").value);
   var longitude = parseFloat(document.getElementById("longitude").value);
