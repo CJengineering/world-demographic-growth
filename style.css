@@ -87,9 +87,11 @@ label {
 
 }
 .color-label-input{
-    width: 300px;
-   display: flex;
-   justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Adjust the column size as needed */
+    gap: 16px; /* Adjust the gap between items as needed */
+    max-width: 400px; /* Set a maximum width if necessary */
+    margin: 0 auto; /* Center the grid horizontally, if needed *
   
     
   

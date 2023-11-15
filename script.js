@@ -28,38 +28,60 @@ playButton.addEventListener("click", function() {
 
 //### COLOR PICKER PART ####
 
-function storeColors() {
+// Function to store the background color
+function storeBgColor() {
   localStorage.setItem("bg-color", document.getElementById("bg-color").value);
-  localStorage.setItem(
-    "map-bg-color",
-    document.getElementById("map-bg-color").value
-  );
-  localStorage.setItem(
-    "country-color",
-    document.getElementById("country-color").value
-  );
-  localStorage.setItem(
-    "border-color",
-    document.getElementById("border-color").value
-  );
-  localStorage.setItem(
-    "important-city-center-color",
-    document.getElementById("important-city-center-color").value
-  );
-  localStorage.setItem(
-    "important-city-bubble-color",
-    document.getElementById("important-city-bubble-color").value
-  );
-  localStorage.setItem(
-    "secondary-city-center-color",
-    document.getElementById("secondary-city-center-color").value
-  );
-  localStorage.setItem(
-    "secondary-city-bubble-color",
-    document.getElementById("secondary-city-bubble-color").value
-  );
-  localStorage.setItem("commonwealth-color", document.getElementById("commonwealth-color").value)
 }
+document.getElementById("save-bg-color").addEventListener("click", storeBgColor);
+
+// Function to store the map background color
+function storeMapBgColor() {
+  localStorage.setItem("map-bg-color", document.getElementById("map-bg-color").value);
+}
+document.getElementById("save-map-bg-color").addEventListener("click", storeMapBgColor);
+
+// Function to store the country color
+function storeCountryColor() {
+  localStorage.setItem("country-color", document.getElementById("country-color").value);
+}
+document.getElementById("save-country-color").addEventListener("click", storeCountryColor);
+
+// Function to store the border color
+function storeBorderColor() {
+  localStorage.setItem("border-color", document.getElementById("border-color").value);
+}
+document.getElementById("save-border-color").addEventListener("click", storeBorderColor);
+
+// Function to store the important city center color
+function storeImportantCityCenterColor() {
+  localStorage.setItem("important-city-center-color", document.getElementById("important-city-center-color").value);
+}
+document.getElementById("save-important-city-center-color").addEventListener("click", storeImportantCityCenterColor);
+
+// Function to store the important city bubble color
+function storeImportantCityBubbleColor() {
+  localStorage.setItem("important-city-bubble-color", document.getElementById("important-city-bubble-color").value);
+}
+document.getElementById("save-important-city-bubble-color").addEventListener("click", storeImportantCityBubbleColor);
+
+// Function to store the secondary city center color
+function storeSecondaryCityCenterColor() {
+  localStorage.setItem("secondary-city-center-color", document.getElementById("secondary-city-center-color").value);
+}
+document.getElementById("save-secondary-city-center-color").addEventListener("click", storeSecondaryCityCenterColor);
+
+// Function to store the secondary city bubble color
+function storeSecondaryCityBubbleColor() {
+  localStorage.setItem("secondary-city-bubble-color", document.getElementById("secondary-city-bubble-color").value);
+}
+document.getElementById("save-secondary-city-bubble-color").addEventListener("click", storeSecondaryCityBubbleColor);
+
+// Function to store the commonwealth color
+function storeCommonwealthColor() {
+  localStorage.setItem("commonwealth-color", document.getElementById("commonwealth-color").value);
+}
+document.getElementById("save-commonwealth-color").addEventListener("click", storeCommonwealthColor);
+
 
 function applyStoredColors() {
   // Apply body background color
@@ -72,7 +94,7 @@ function applyStoredColors() {
 
 }
 document.getElementById("apply-colors").addEventListener("click", function () {
-  storeColors();
+  
   applyStoredColors();
   location.reload();
 });
