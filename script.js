@@ -118,10 +118,10 @@ const bgColor = localStorage.getItem("bg-color")|| "black"
 const mapBgColor = localStorage.getItem("map-bg-color")
 const countryColor = localStorage.getItem("country-color")
 const borderColor = localStorage.getItem("border-color")
-const importantCityCenter = localStorage.getItem("important-city-center-color")||"red"
-const importantCityBubble = localStorage.getItem("important-city-bubble-color") || "blue"
-const secondaryCityCenter = localStorage.getItem("secondary-city-center-color")||"red"
-const secondaryCityBubble = localStorage.getItem("secondary-city-bubble-color") || "orange"
+const importantCityCenter = localStorage.getItem("important-city-center-color")|| "#e74c3c"
+const importantCityBubble = localStorage.getItem("important-city-bubble-color") || "#3498db"
+const secondaryCityCenter = localStorage.getItem("secondary-city-center-color")|| "#e74c3c"
+const secondaryCityBubble = localStorage.getItem("secondary-city-bubble-color") || "#e67e22"
 const commonwealthColor = localStorage.getItem("commonwealth-color") || "#3498db"        
 
 //Initial color 
@@ -137,7 +137,7 @@ const commonwealthColor = localStorage.getItem("commonwealth-color") || "#3498db
     document.getElementById("country-color").value = countryColor || "#dcdcdc"; // Default to white
 
     // Border color
-    document.getElementById("border-color").value = borderColor || "#e74c3c"; // Default to white
+    document.getElementById("border-color").value = borderColor || "#dcdcdc"; // Default to white
 
     // Important city center color
     document.getElementById("important-city-center-color").value = importantCityCenter || "#e74c3c"; // Default to white
