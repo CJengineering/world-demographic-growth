@@ -24,6 +24,12 @@ playButton.addEventListener("click", function() {
 });
 */
 }
+//Initial color 
+
+
+    // Background color
+
+
 
 
 //### COLOR PICKER PART ####
@@ -108,13 +114,46 @@ function cleanStyle(){
 document.getElementById("clean-style").addEventListener("click", function(){
   cleanStyle()
 })
+const bgColor = localStorage.getItem("bg-color")|| "black"
+const mapBgColor = localStorage.getItem("map-bg-color")
 const countryColor = localStorage.getItem("country-color")
 const borderColor = localStorage.getItem("border-color")
 const importantCityCenter = localStorage.getItem("important-city-center-color")||"red"
 const importantCityBubble = localStorage.getItem("important-city-bubble-color") || "blue"
 const secondaryCityCenter = localStorage.getItem("secondary-city-center-color")||"red"
 const secondaryCityBubble = localStorage.getItem("secondary-city-bubble-color") || "orange"
-const commonwealthColor = localStorage.getItem("commonwealth-color") || "yellow"                     
+const commonwealthColor = localStorage.getItem("commonwealth-color") || "#3498db"        
+
+//Initial color 
+
+
+    // Background color
+    document.getElementById("bg-color").value = bgColor || "#cccc"; // Default to white
+
+    // Map background color
+    document.getElementById("map-bg-color").value = mapBgColor || "#ccc"; // Default to white
+
+    // Country color
+    document.getElementById("country-color").value = countryColor || "#dcdcdc"; // Default to white
+
+    // Border color
+    document.getElementById("border-color").value = borderColor || "#e74c3c"; // Default to white
+
+    // Important city center color
+    document.getElementById("important-city-center-color").value = importantCityCenter || "#e74c3c"; // Default to white
+
+    // Important city bubble color
+    document.getElementById("important-city-bubble-color").value = importantCityBubble || "#3498db"; // Default to white
+
+    // Secondary city center color    document.getElementById("secondary-city-center-color").value = secondaryCityCenterColor || "#FFFFFF"; // Default to white
+
+    // Secondary city bubble color
+    document.getElementById("secondary-city-bubble-color").value = secondaryCityBubble || "#e67e22"; // Default to white
+
+    // Commonwealth color
+    document.getElementById("commonwealth-color").value = commonwealthColor || "#3498db"; // Default to white
+
+
 //### END PICKER COLOR PART    ####
 var cityData = [
   { name: "Paris", latitude: 48, longitude: 2, size: 1 },
@@ -185,7 +224,7 @@ function animateCircle(circle, city) {
   );
   console.log("Animation duration:", animationDuration);
   let interval = setInterval(() => {
-    if (currentYear <= 2030) {
+    if (currentYear <= 2050) {
      // const scaledRadius = city[currentYear] / 1000;
      const area = city[currentYear];
      const scaledRadius = (Math.sqrt(area / Math.PI))/5;
@@ -320,7 +359,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
     .attr("stroke", borderColor)
     .attr("fill", function(d) {
       // Check if the country is in the Commonwealth and set the color
-      return commonwealthCountriesNumeric.includes(d.id) ? commonwealthColor : "lightgray";
+      return commonwealthCountriesNumeric.includes(d.id) ? commonwealthColor : "#dcdcdc";
   });
 });
 // Load and display the world data
