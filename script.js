@@ -115,9 +115,9 @@ document.getElementById("clean-style").addEventListener("click", function(){
   cleanStyle()
 })
 const bgColor = localStorage.getItem("bg-color")|| "black"
-const mapBgColor = localStorage.getItem("map-bg-color")
-const countryColor = localStorage.getItem("country-color")
-const borderColor = localStorage.getItem("border-color")
+const mapBgColor = localStorage.getItem("map-bg-color") || "#ccc"
+const countryColor = localStorage.getItem("country-color") || "#dcdcdc"
+const borderColor = localStorage.getItem("border-color")|| "#dcdcdc"
 const importantCityCenter = localStorage.getItem("important-city-center-color")|| "#e74c3c"
 const importantCityBubble = localStorage.getItem("important-city-bubble-color") || "#3498db"
 const secondaryCityCenter = localStorage.getItem("secondary-city-center-color")|| "#e74c3c"
@@ -134,24 +134,25 @@ const commonwealthColor = localStorage.getItem("commonwealth-color") || "#3498db
     document.getElementById("map-bg-color").value = mapBgColor || "#ccc"; // Default to white
 
     // Country color
-    document.getElementById("country-color").value = countryColor || "#dcdcdc"; // Default to white
+    document.getElementById("country-color").value = countryColor ; // Default to white
 
     // Border color
-    document.getElementById("border-color").value = borderColor || "#dcdcdc"; // Default to white
+    document.getElementById("border-color").value = borderColor ; // Default to white
 
     // Important city center color
-    document.getElementById("important-city-center-color").value = importantCityCenter || "#e74c3c"; // Default to white
+    document.getElementById("important-city-center-color").value = importantCityCenter ; // Default to white
 
     // Important city bubble color
-    document.getElementById("important-city-bubble-color").value = importantCityBubble || "#3498db"; // Default to white
-
-    // Secondary city center color    document.getElementById("secondary-city-center-color").value = secondaryCityCenterColor || "#FFFFFF"; // Default to white
+    document.getElementById("important-city-bubble-color").value = importantCityBubble ; // Default to white
+      
+    // Secondary city center color  
+      document.getElementById("secondary-city-center-color").value = secondaryCityCenter ; // Default to white
 
     // Secondary city bubble color
-    document.getElementById("secondary-city-bubble-color").value = secondaryCityBubble || "#e67e22"; // Default to white
+    document.getElementById("secondary-city-bubble-color").value = secondaryCityBubble  // Default to white
 
     // Commonwealth color
-    document.getElementById("commonwealth-color").value = commonwealthColor || "#3498db"; // Default to white
+    document.getElementById("commonwealth-color").value = commonwealthColor ; // Default to white
 
 
 //### END PICKER COLOR PART    ####
