@@ -94,4 +94,7 @@ label {
 
 }
     
-  
+#arrayDisplay{
+    font-size: larger;
+    color: aliceblue;
+}

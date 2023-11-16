@@ -165,8 +165,13 @@ var cityData = [
 function removeAllCircles() {
   svg.selectAll("circle").remove();
 }
+function cleanYear(){
+  const yearDiv = document.getElementById('arrayDisplay')
+  yearDiv.innerText = '1950'
+}
 document.getElementById("removeButton").addEventListener("click", function () {
   removeAllCircles();
+  cleanYear()
 });
 document.addEventListener("keydown", function (event) {
   if (event.key === "z") {
@@ -219,6 +224,7 @@ function addAnimatedCircle(city) {
 }
 function animateCircle(circle, city) {
   let currentYear = 1950;
+  const arrayDisplay = document.getElementById('arrayDisplay');
   const animationDuration = parseInt(
     document.getElementById("animationDuration").value,
     10
@@ -229,7 +235,7 @@ function animateCircle(circle, city) {
      // const scaledRadius = city[currentYear] / 1000;
      const area = city[currentYear];
      const scaledRadius = (Math.sqrt(area / Math.PI))/5;
-
+     arrayDisplay.innerHTML = currentYear
       circle
         .transition()
         .duration(500) // Animation duration for each year
@@ -298,6 +304,7 @@ const playButtonAllCities = document.getElementById("playButtonAllCities");
 playButtonAllCities.addEventListener("click", function () {
   citiesData.forEach(function (city) {
     addAnimatedCircle(city);
+    
   });
 });
 document.addEventListener("keydown", function (event) {
@@ -423,3 +430,10 @@ function addRedPoint() {
 }
 
 // Rest of your existing code for drawing the map and initial circles goes here
+const yearArray = Array.from({length: 20}, (_, index) => 1955 + index * 5);
+
+  // Function to update the content of the div with the current array element
+  
+
+  // Call the function to start the process
+  
