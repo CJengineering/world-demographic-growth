@@ -222,6 +222,7 @@ function addAnimatedCircle(city) {
   // Trigger the animation
   animateCircle(circle, city);
 }
+{/** 
 function animateCircle(circle, city) {
   let currentYear = 1950;
   const arrayDisplay = document.getElementById('arrayDisplay');
@@ -238,16 +239,111 @@ function animateCircle(circle, city) {
      arrayDisplay.innerHTML = currentYear
       circle
         .transition()
-        .duration(500) // Animation duration for each year
-        .ease(d3.easeCubic)
+        .duration(1000) 
+        .ease(d3.easeCubicInOut)
         .attr("r", scaledRadius);
 
-      currentYear += 5; // Incrementing by 5 years
+      currentYear += 5; 
     } else {
-      clearInterval(interval); // Stop the animation when reaching 2050
+      clearInterval(interval); 
     }
   }, animationDuration);
+}*/}
+function animateCircle(circle, city) {
+  let currentYear = 1950;
+  const arrayDisplay = document.getElementById('arrayDisplay');
+  const animationDuration = parseInt(
+    document.getElementById("animationDuration").value,
+    10
+  );
+  console.log("Animation duration:", animationDuration);
+
+  function updateCircle() {
+    if (currentYear <= 2050) {
+      const currentArea = city[currentYear];
+      const nextYear = currentYear + 5;
+      const nextArea = city[nextYear] || currentArea; // Default to currentArea if nextYear data is not available
+      const areaDifference = (nextArea - currentArea) / 5; // Difference to be applied in each intermediate step
+
+      let scaledRadius = (Math.sqrt(currentArea / Math.PI)) / 5;
+      arrayDisplay.innerHTML = currentYear;
+
+      function intermediateStep(step = 0) {
+        if (step < 5) {
+          // Adjust radius based on the difference
+          const newArea = currentArea + areaDifference * step;
+          scaledRadius = (Math.sqrt(newArea / Math.PI)) / 5;
+
+          circle
+            .transition()
+            .duration(animationDuration / 5) // divide by 5 for intermediate steps
+            .ease(d3.easeCubic)
+            .attr("r", scaledRadius)
+            .on("end", () => intermediateStep(step + 1));
+        } else {
+          // After 5 intermediate steps, move to the next year
+          currentYear += 5;
+          updateCircle();
+        }
+      }
+
+      // Start the intermediate animation steps
+      intermediateStep();
+    }
+  }
+
+  // Start the animation
+  updateCircle();
 }
+
+
+{/**function animateCircle(circle, city) {
+  let currentYear = 1950;
+  const arrayDisplay = document.getElementById('arrayDisplay');
+  const animationDuration = parseInt(
+    document.getElementById("animationDuration").value,
+    10
+  );
+  console.log("Animation duration:", animationDuration);
+
+  function updateCircle() {
+    if (currentYear <= 2050) {
+      const area = city[currentYear];
+      let scaledRadius = (Math.sqrt(area / Math.PI)) / 5;
+      arrayDisplay.innerHTML = currentYear;
+
+      function intermediateStep(step = 0) {
+        if (step < 100) {
+          // Increase radius by 10%
+          scaledRadius *= 1.001;
+
+          circle
+            .transition()
+            .duration(animationDuration / 100) // divide by 5 for intermediate steps
+            .ease(d3.easeCubic)
+            .attr("r", scaledRadius)
+            .on("end", () => intermediateStep(step + 1));
+        } else {
+          // After 5 intermediate steps, move to the next year
+          currentYear += 5;
+          updateCircle();
+        }
+      }
+
+      // Start the intermediate animation steps
+      intermediateStep();
+    }
+  }
+
+  // Start the animation
+  updateCircle();
+} */}
+
+
+
+
+
+
 function displayCityEvolution(cityName) {
   // Find the selected city in the data
   const selectedCity = citiesData.find(
@@ -430,7 +526,7 @@ function addRedPoint() {
 }
 
 // Rest of your existing code for drawing the map and initial circles goes here
-const yearArray = Array.from({length: 20}, (_, index) => 1955 + index * 5);
+const yearArray = Array.from({length: 20}, (_, index) => 1950 + index * 5);
 
   // Function to update the content of the div with the current array element
   
