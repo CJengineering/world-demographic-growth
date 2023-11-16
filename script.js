@@ -360,7 +360,7 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
     .attr("stroke", borderColor)
     .attr("fill", function(d) {
       // Check if the country is in the Commonwealth and set the color
-      return commonwealthCountriesNumeric.includes(d.id) ? commonwealthColor : "#dcdcdc";
+      return commonwealthCountriesNumeric.includes(d.id) ? commonwealthColor : countryColor;
   });
 });
 // Load and display the world data
