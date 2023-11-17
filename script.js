@@ -29,7 +29,8 @@ playButton.addEventListener("click", function() {
 // Background color
 
 //### Important city togle
-
+const primaryCityState = document.getElementById("primaryCityState")
+const secondaryCityState = document.getElementById("secondaryCityState")
 let primaryCity = JSON.parse(localStorage.getItem("primaryCity")) || false;
 let secondaryCity = JSON.parse(localStorage.getItem("secondaryCity")) || false;
 
@@ -52,6 +53,8 @@ function toggleSecondaryCity() {
 
 // Function to update button states based on the values of primaryCity and secondaryCity
 function updateButtonStates() {
+  primaryCityState.innerText = primaryCity
+  secondaryCityState.innerText = secondaryCity
   console.log("Primary City:", primaryCity);
   console.log("Secondary City:", secondaryCity);
 }
