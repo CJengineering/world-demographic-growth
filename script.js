@@ -29,14 +29,20 @@ playButton.addEventListener("click", function() {
 // Background color
 
 //### Important city togle
+let borderTransparent =  JSON.parse(localStorage.getItem("borderToggle")) || false;
 const primaryCityState = document.getElementById("primaryCityState");
 const secondaryCityState = document.getElementById("secondaryCityState");
 let primaryCity = JSON.parse(localStorage.getItem("primaryCity")) || false;
 let secondaryCity = JSON.parse(localStorage.getItem("secondaryCity")) || false;
-
+const borderState = document.getElementById("toggleBorder")
 // Update the button states based on the retrieved values
 updateButtonStates();
+function toggleBorderTransparent(){
+  borderTransparent= !borderTransparent
+  updateButtonStates();
+  saveToLocalStorage("borderToggle", borderTransparent);
 
+}
 // Function to toggle the value of primaryCity
 function togglePrimaryCity() {
   primaryCity = !primaryCity;
@@ -55,6 +61,7 @@ function toggleSecondaryCity() {
 function updateButtonStates() {
   primaryCityState.innerText = primaryCity;
   secondaryCityState.innerText = secondaryCity;
+  borderState.innerText = borderTransparent;
   console.log("Primary City:", primaryCity);
   console.log("Secondary City:", secondaryCity);
 }
@@ -710,8 +717,14 @@ d3.json("https://unpkg.com/world-atlas@1/world/110m.json").then(function (
     .enter()
     .append("path")
     .attr("d", path)
-    .attr("stroke", borderColor)
-    .attr("fill", function (d) {
+    .attr("stroke", function(d) {
+      // Define the condition to check if the border should be removed
+      if (borderTransparent) {
+        return "transparent"; // or "transparent" to remove the border
+      } else {
+        return borderColor; // default border color
+      }
+    }).attr("fill", function (d) {
       // Check if the country is in the Commonwealth and set the color
       return commonwealthCountriesNumeric.includes(d.id)
         ? commonwealthColor
@@ -761,17 +774,17 @@ function zoomOut() {
 d3.select("#zoom-in").on("click", zoomIn);
 d3.select("#zoom-out").on("click", zoomOut);
 function addRedPoint() {
-  var latitude = parseFloat(document.getElementById("latitude").value);
-  var longitude = parseFloat(document.getElementById("longitude").value);
+  var latitude = parseFloat(3.20);
+  var longitude = parseFloat(73.22);
 
   if (!isNaN(latitude) && !isNaN(longitude)) {
     // Add a red point at the specified coordinates
-    svg
+    g
       .append("circle")
       .attr("cx", projection([longitude, latitude])[0])
       .attr("cy", projection([longitude, latitude])[1])
-      .attr("r", 5) // Adjust the size of the point as needed
-      .style("fill", "red");
+      .attr("r", 1) // Adjust the size of the point as needed
+      .style("fill", "blue");
   } else {
     alert("Please enter valid latitude and longitude values.");
   }
@@ -779,7 +792,7 @@ function addRedPoint() {
 
 // Rest of your existing code for drawing the map and initial circles goes here
 const yearArray = Array.from({ length: 20 }, (_, index) => 1950 + index * 5);
-
+addRedPoint()
 // Function to update the content of the div with the current array element
 
 // Call the function to start the process
