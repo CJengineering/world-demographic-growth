@@ -29,8 +29,8 @@ playButton.addEventListener("click", function() {
 // Background color
 
 //### Important city togle
-const primaryCityState = document.getElementById("primaryCityState")
-const secondaryCityState = document.getElementById("secondaryCityState")
+const primaryCityState = document.getElementById("primaryCityState");
+const secondaryCityState = document.getElementById("secondaryCityState");
 let primaryCity = JSON.parse(localStorage.getItem("primaryCity")) || false;
 let secondaryCity = JSON.parse(localStorage.getItem("secondaryCity")) || false;
 
@@ -53,8 +53,8 @@ function toggleSecondaryCity() {
 
 // Function to update button states based on the values of primaryCity and secondaryCity
 function updateButtonStates() {
-  primaryCityState.innerText = primaryCity
-  secondaryCityState.innerText = secondaryCity
+  primaryCityState.innerText = primaryCity;
+  secondaryCityState.innerText = secondaryCity;
   console.log("Primary City:", primaryCity);
   console.log("Secondary City:", secondaryCity);
 }
@@ -281,29 +281,83 @@ document.getElementById("yearSelector").addEventListener("change", function () {
   displayCitiesForYear(selectedYear);
 });
 function addAnimatedCircle(city) {
-  g.append("circle")
-    .attr("cx", projection([city.Longitude, city.Latitude])[0])
-    .attr("cy", projection([city.Longitude, city.Latitude])[1])
-    .attr("r", 2) // Adjust the size of the red point as needed
-    .style(
-      "fill",
-      city["Primary city"] ? importantCityCenter : secondaryCityCenter
-    );
+  if (primaryCity) {
+    if (city["Primary city"] === true) {
+      g.append("circle")
+        .attr("cx", projection([city.Longitude, city.Latitude])[0])
+        .attr("cy", projection([city.Longitude, city.Latitude])[1])
+        .attr("r", 2) // Adjust the size of the red point as needed
+        .style(
+          "fill",
+          city["Primary city"] ? importantCityCenter : secondaryCityCenter
+        );
 
-  const circle = g
-    .append("circle")
-    .datum(city)
-    .attr("cx", projection([city.Longitude, city.Latitude])[0])
-    .attr("cy", projection([city.Longitude, city.Latitude])[1])
-    .attr("r", 1) // Initial size of the circle
-    .style(
-      "fill",
-      city["Primary city"] ? importantCityBubble : secondaryCityBubble
-    )
-    .style("opacity", 0.5);
+      const circle = g
+        .append("circle")
+        .datum(city)
+        .attr("cx", projection([city.Longitude, city.Latitude])[0])
+        .attr("cy", projection([city.Longitude, city.Latitude])[1])
+        .attr("r", 1) // Initial size of the circle
+        .style(
+          "fill",
+          city["Primary city"] ? importantCityBubble : secondaryCityBubble
+        )
+        .style("opacity", 0.5);
 
-  // Trigger the animation
-  animateCircle(circle, city);
+      // Trigger the animation
+      animateCircle(circle, city);
+    }
+  } else if (secondaryCity) {
+    if (city["Primary city"] === false) {
+      g.append("circle")
+        .attr("cx", projection([city.Longitude, city.Latitude])[0])
+        .attr("cy", projection([city.Longitude, city.Latitude])[1])
+        .attr("r", 2) // Adjust the size of the red point as needed
+        .style(
+          "fill",
+          city["Primary city"] ? importantCityCenter : secondaryCityCenter
+        );
+
+      const circle = g
+        .append("circle")
+        .datum(city)
+        .attr("cx", projection([city.Longitude, city.Latitude])[0])
+        .attr("cy", projection([city.Longitude, city.Latitude])[1])
+        .attr("r", 1) // Initial size of the circle
+        .style(
+          "fill",
+          city["Primary city"] ? importantCityBubble : secondaryCityBubble
+        )
+        .style("opacity", 0.5);
+
+      // Trigger the animation
+      animateCircle(circle, city);
+    }
+  } else if (!primaryCity && !secondaryCity) {
+    g.append("circle")
+      .attr("cx", projection([city.Longitude, city.Latitude])[0])
+      .attr("cy", projection([city.Longitude, city.Latitude])[1])
+      .attr("r", 2) // Adjust the size of the red point as needed
+      .style(
+        "fill",
+        city["Primary city"] ? importantCityCenter : secondaryCityCenter
+      );
+
+    const circle = g
+      .append("circle")
+      .datum(city)
+      .attr("cx", projection([city.Longitude, city.Latitude])[0])
+      .attr("cy", projection([city.Longitude, city.Latitude])[1])
+      .attr("r", 1) // Initial size of the circle
+      .style(
+        "fill",
+        city["Primary city"] ? importantCityBubble : secondaryCityBubble
+      )
+      .style("opacity", 0.5);
+
+    // Trigger the animation
+    animateCircle(circle, city);
+  }
 }
 {
   /** 
@@ -373,7 +427,12 @@ function animateCircle(circle, city) {
         }
 
         intermediateStep();
-      } else if (currentYear <= 2050 && primaryCity && !secondaryCity && city["Primary city"] === true) {
+      } else if (
+        currentYear <= 2050 &&
+        primaryCity &&
+        !secondaryCity &&
+        city["Primary city"] === true
+      ) {
         // Only if primaryCity is true and secondaryCity is false
         const currentArea = city[currentYear];
         const nextYear = currentYear + 5;
@@ -401,7 +460,12 @@ function animateCircle(circle, city) {
         }
 
         intermediateStep();
-      } else if (currentYear <= 2050 && !primaryCity && secondaryCity && city["Primary city"] === false) {
+      } else if (
+        currentYear <= 2050 &&
+        !primaryCity &&
+        secondaryCity &&
+        city["Primary city"] === false
+      ) {
         // Only if primaryCity is false and secondaryCity is true
         const currentArea = city[currentYear];
         const nextYear = currentYear + 5;
@@ -436,7 +500,6 @@ function animateCircle(circle, city) {
   // Start the animation
   updateCircle();
 }
-
 
 {
   /**function animateCircle(circle, city) {
